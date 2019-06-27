@@ -1,0 +1,93 @@
+# 可通过 http 连接进行检查的服务
+# URL 地址需要返回 http status code = 200，且响应时间不超过 maxtime 表示成功
+# 注意：只能提供 HTTP GET 请求地址
+http:
+  haproxy:
+    url: http://127.0.0.1/health.php
+    maxtime: 1
+    requests: 1
+  nginx:
+    url: http://127.0.0.1/hello.php
+    maxtime: 1
+    requests: 1
+    intervals: 0.1
+  apache-node1:
+    url: http://127.0.0.1:8800/health.php
+    maxtime: 1
+    requests: 1
+    intervals: 0.1
+  apache-node2:
+    url: http://127.0.0.1:8800/health.php
+    maxtime: 1
+    requests: 1
+    intervals: 0.1
+  elasticsearch:
+    url: http://127.0.0.1:8800/health.php
+    maxtime: 1
+    requests: 1
+
+# 可通过 ping 命令检查的服务
+# 且 icmp 响应时间不超过 maxtime 表示成功
+ping:
+  haproxy:
+    host: 192.168.12.10 # 目标地址，IP 或域名
+    timeout: 4 # 超时时间，默认为 4 秒
+    ttl: 64 # 数据包生存时间，默认 64
+    seq: 0 # ICMP 数据包序列，默认从 0 开始
+    size: 56 # ICMP 数据包大小，默认 56 + 8bytes ICMP 头
+  baidu:
+    host: www.baidu.com
+  google:
+    host: www.google.com
+
+# 可通过 socket tcp 连接进行验证的服务
+socket:
+  local:
+    host: 127.0.0.1
+    port: 80
+    timeout: 10
+  error:
+    host: 127.0.0.1
+    port: 88
+    timeout: 10
+
+# memcache 连接检查
+memcache:
+  session:
+    host: 127.0.0.1
+    port: 11211
+
+# redis 连接检查
+redis:
+  simple:
+    host: 127.0.0.1
+    port: 6379
+
+# redis 哨兵集群检查
+redis_sentinel:
+  default:
+    master: sentinel-master-d
+    password: mypassword
+    sentinels:
+      - 192.168.12.10:6379
+      - 192.168.12.11:6379
+      - 192.168.12.12:6379
+
+# mysql 数据库连接
+mysql:
+  master:
+    host: 127.0.0.1
+    port: 3306
+    user: root
+    password: root
+    database: test
+    connect_timeout: 10
+    performance_seconds: 5 # 性能分析消耗时间(秒), 0 则不分析
+  slave:
+    host: 127.0.0.1
+    port: 3306
+    user: root
+    password: root
+    database: test
+    connect_timeout: 10
+    performance_seconds: 0

@@ -1,0 +1,6 @@
+ping3~=2.2.3
+stringcase~=1.2.0
+redis~=3.2.1
+PyYAML~=5.1.1
+pymemcache~=2.1.1
+PyMySQL~=0.9.3
